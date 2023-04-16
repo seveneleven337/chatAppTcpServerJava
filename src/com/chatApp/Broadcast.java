@@ -23,12 +23,12 @@ public class Broadcast {
             String[] split = message.split("<ETF>");
             user = split[0].substring(3);
             for(int i=0; i<DataBase.users.size(); i++){
-                System.out.println("en etf" + DataBase.users.get(i).getUser() + "   >" + user + "<");
                 if(DataBase.users.get(i).getUser().equals(user)){
                     System.out.println("en etf igual");
                     try {
                         out = new PrintWriter(sockets.get(i).getOutputStream(), true);
                         out.println("private message " + user + " : " + split[1]);
+                        System.out.println("test");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -37,7 +37,6 @@ public class Broadcast {
         }
         else {
             for(int i = 0; i < sockets.size() ;  i++){
-                System.out.println("broad");
                 try {
                     out = new PrintWriter(sockets.get(i).getOutputStream(), true);
                     out.println(user + message);

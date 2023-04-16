@@ -7,8 +7,10 @@ public class User {
     private Socket socket;
     private String IP;
 
-    public User(String user) {
+    public User(String user, Socket socket, String IP) {
         this.user = user;
+        this.socket = socket;
+        this.IP = IP;
     }
 
     public String getUser() {
