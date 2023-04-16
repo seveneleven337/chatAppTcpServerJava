@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.Observable;
+import java.util.Observer;
 
 public class ClientHandler implements Runnable {
     private final Socket clientSocket;
@@ -18,7 +20,7 @@ public class ClientHandler implements Runnable {
     {
         PrintWriter out = null;
         BufferedReader in = null;
-        User newClient = new User(null);
+        User newClient = new User("null");
 
         boolean firstMessage = true;
         try {
@@ -33,8 +35,8 @@ public class ClientHandler implements Runnable {
                     firstMessage = false;
                 } else {
                     System.out.println(newClient.getUser() + " :" + line);
-                    DataBase.messages.add(newClient.getUser() + " :" + line);
-                    out.println(newClient.getUser() + " :" + line);
+                    Broadcast.update(newClient.getUser() , line);
+                    //out.println(newClient.getUser() + " :" + line);
                 }
             }
             out.println();
@@ -49,6 +51,7 @@ public class ClientHandler implements Runnable {
                 }
                 if (in != null) {
                     in.close();
+                    Broadcast.remove(clientSocket);
                     clientSocket.close();
                 }
             }

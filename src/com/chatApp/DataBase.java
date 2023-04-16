@@ -1,8 +1,9 @@
 package com.chatApp;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
-public class DataBase {
+public class DataBase extends Observable {
 
     static ArrayList<String> messages = new ArrayList<String>();
 

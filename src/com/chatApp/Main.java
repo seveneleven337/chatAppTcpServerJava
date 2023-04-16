@@ -15,6 +15,7 @@ class Server {
                 Socket client = server.accept();
                 //System.out.println("New client connected" + client.getInetAddress().getHostAddress());
                 ClientHandler clientSock = new ClientHandler(client);
+                Broadcast.sockets.add(client);
                 new Thread(clientSock).start();
             }
         }
