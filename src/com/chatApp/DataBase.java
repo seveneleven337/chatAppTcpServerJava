@@ -7,6 +7,6 @@ public class DataBase extends Observable {
 
     static ArrayList<String> messages = new ArrayList<String>();
 
-    static ArrayList<String> users = new ArrayList<String>();
+    static ArrayList<User> users = new ArrayList<User>();
 
 }

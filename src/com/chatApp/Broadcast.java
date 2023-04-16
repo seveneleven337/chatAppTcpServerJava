@@ -14,17 +14,40 @@ public class Broadcast {
         if(msg.contains("<EOF>")){
             message = " disconnected";
         }
-        PrintWriter out = null;
-        for(int i = 0; i < sockets.size() ;  i++){
-            try {
-                out = new PrintWriter(sockets.get(i).getOutputStream(), true);
-                out.println(user + message);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        broadcastMessage(user, message);
     }
 
+    private static void broadcastMessage(String user, String message){
+        PrintWriter out = null;
+        if(message.contains("<ETF>")){
+            String[] split = message.split("<ETF>");
+            user = split[0].substring(3);
+            for(int i=0; i<DataBase.users.size(); i++){
+                System.out.println("en etf" + DataBase.users.get(i).getUser() + "   >" + user + "<");
+                if(DataBase.users.get(i).getUser().equals(user)){
+                    System.out.println("en etf igual");
+                    try {
+                        out = new PrintWriter(sockets.get(i).getOutputStream(), true);
+                        out.println("private message " + user + " : " + split[1]);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+        else {
+            for(int i = 0; i < sockets.size() ;  i++){
+                System.out.println("broad");
+                try {
+                    out = new PrintWriter(sockets.get(i).getOutputStream(), true);
+                    out.println(user + message);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+    }
     public static void remove(Socket clientSocket) {
         for(int i = 0; i < sockets.size() ;  i++){
             if(sockets.get(i) == clientSocket) sockets.remove(i);

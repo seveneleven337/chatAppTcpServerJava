@@ -11,11 +11,11 @@ class Server {
         try {
             server = new ServerSocket(6000);
             server.setReuseAddress(true);
+            System.out.println("server running");
             while (true) {
                 Socket client = server.accept();
                 //System.out.println("New client connected" + client.getInetAddress().getHostAddress());
                 ClientHandler clientSock = new ClientHandler(client);
-                Broadcast.sockets.add(client);
                 new Thread(clientSock).start();
             }
         }

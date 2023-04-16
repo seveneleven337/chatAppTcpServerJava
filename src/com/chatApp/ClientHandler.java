@@ -21,10 +21,11 @@ public class ClientHandler implements Runnable {
         PrintWriter out = null;
         BufferedReader in = null;
         User newClient = new User("null");
-
+        Broadcast.sockets.add(clientSocket);
         boolean firstMessage = true;
         try {
             newClient.setIP(clientSocket.getInetAddress().getHostAddress());
+            newClient.setSocket(clientSocket);
             System.out.println("New client connected " + newClient.getIP());
             out = new PrintWriter(clientSocket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
@@ -32,11 +33,11 @@ public class ClientHandler implements Runnable {
             while ((line = in.readLine()) != null) {
                 if(firstMessage) {
                     newClient.setUser(line);
+                    DataBase.users.add(newClient);
                     firstMessage = false;
                 } else {
                     System.out.println(newClient.getUser() + " :" + line);
-                    Broadcast.update(newClient.getUser() , line);
-                    //out.println(newClient.getUser() + " :" + line);
+                    Broadcast.update(newClient.getUser(), line);
                 }
             }
             out.println();
