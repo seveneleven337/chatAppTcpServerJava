@@ -13,7 +13,7 @@ class Server {
             server.setReuseAddress(true);
             while (true) {
                 Socket client = server.accept();
-                System.out.println("New client connected" + client.getInetAddress().getHostAddress());
+                //System.out.println("New client connected" + client.getInetAddress().getHostAddress());
                 ClientHandler clientSock = new ClientHandler(client);
                 new Thread(clientSock).start();
             }

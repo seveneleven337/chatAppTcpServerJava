@@ -18,18 +18,26 @@ public class ClientHandler implements Runnable {
     {
         PrintWriter out = null;
         BufferedReader in = null;
+        User newClient = new User(null);
+
+        boolean firstMessage = true;
         try {
-
+            newClient.setIP(clientSocket.getInetAddress().getHostAddress());
+            System.out.println("New client connected " + newClient.getIP());
             out = new PrintWriter(clientSocket.getOutputStream(), true);
-
             in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-
             String line;
             while ((line = in.readLine()) != null) {
-
-                System.out.printf(" Sent from the client: %s\n", line);
-                out.println(line);
+                if(firstMessage) {
+                    newClient.setUser(line);
+                    firstMessage = false;
+                } else {
+                    System.out.println(newClient.getUser() + " :" + line);
+                    DataBase.messages.add(newClient.getUser() + " :" + line);
+                    out.println(newClient.getUser() + " :" + line);
+                }
             }
+            out.println();
         }
         catch (IOException e) {
             e.printStackTrace();
